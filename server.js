@@ -5,6 +5,9 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Reemplaza "tu-clave-api-aqui" con la clave API que obtuviste de NCBI
+const NCBI_API_KEY = 'c7efd14934d6c93ec538c42c18e2d47d3008';
+
 // Endpoint para obtener datos de NCBI
 app.get('/api/fetch-genbank', async (req, res) => {
   const accession = req.query.accession;
@@ -13,7 +16,7 @@ app.get('/api/fetch-genbank', async (req, res) => {
   }
 
   try {
-    const url = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=${accession}&rettype=gb&retmode=text`;
+    const url = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&id=${accession}&rettype=gb&retmode=text&api_key=${NCBI_API_KEY}`;
     const response = await fetch(url);
     const data = await response.text();
     res.set('Content-Type', 'text/plain');
